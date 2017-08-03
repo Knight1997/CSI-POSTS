@@ -1,7 +1,7 @@
 # CSI-POSTS
  Project Name: CSI-POSTS
- Designed and Developed by:- Utkarsh Sinha 
-                             2 year
+ Designed and Developed by:- Utkarsh Sinha,
+                             2 year,
                              IT-2
  
  Steps to follow:
