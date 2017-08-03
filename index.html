@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Facebook Login JavaScript Example</title>
+    
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Droid+Serif|Merriweather:700" rel="stylesheet">
+  <link rel="stylesheet" href="https://bootswatch.com/united/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Login Page</title>
+    <style media="screen">
+        #fb-btn{
+            margin-top: 20px;
+        }
+        #profile,#feed{
+            display: none;
+        }
+        
+        #logout{
+            display: none;
+            font-size: 20px;
+        }
+        
+    </style>
+           
+</head>
+   
+<body>
+    
+    <!------FB LOGIN BUTTON ----->
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right navbar-right">
+              <li><a id="logout" href="#" onclick="logout()">Logout</a></li>
+            <fb:login-button 
+              id="fb-btn"                  
+              scope="public_profile,email,user_birthday,user_posts"
+              onlogin="checkLoginState();">
+            </fb:login-button>
+              
+          </ul>
+        </nav>
+          <h3 class="text-muted"><b>Welcome to CSI</b></h3>
+      </div>
+   <!----------------------------------------------------------------------------->
+        <!--------------- HEADER CONTANER----------------->
+      <div class="jumbotron">
+        <h1>CSI Posts</h1>
+        <p><img src="https://scontent.fdel8-1.fna.fbcdn.net/v/t1.0-9/1185472_346668195466354_66233959_n.jpg?oh=9bf600e2413c835bc19c8aee6a2a6582&oe=5A032110">
+            </p>
+          <br>
+          <h1 id="welcome-msg">Log in to continue</h1>
+          </div>
+
+        <div class="container">
+        <div id="profile"></div>
+        </div>
+          
+      
+        <!---------------- FEED --------------->
+        <div id="feed">
+          
+            <div class="fb-post" data-href="https://www.facebook.com/csinsit/posts/1811337948878068" data-width="750"></div>
+            <div class="fb-post" data-href="https://www.facebook.com/csinsit/posts/1811337948878068" data-width="750"></div>
+            <div class="fb-post" data-href="https://www.facebook.com/csinsit/posts/1811337948878068" data-width="750"></div>
+            <div class="fb-post" data-href="https://www.facebook.com/csinsit/posts/1811337948878068" data-width="750"></div>
+
+          <h4>Subheading</h4>
+          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+          <h4>Subheading</h4>
+          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+        </div>
+            
+        <!------------------------------------------->
+      
+
+      <footer class="footer">
+        <p>&copy; designed and developed by, Utkarsh Sinha</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+           <!--------------- FACBOOK SDK ------------>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+      
+    <script src="//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.5" 
+      async></script> 
+ 
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.10&appId=119210578708411";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+    
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '119210578708411',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v2.8'
+    });
+    
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });   
+          };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+    
+    //CHECKS LOGGED IN STATE
+    function statusChangeCallback(response){
+        if(response.status=="connected")
+        {
+            console.log("Logged in and authenticated");
+            setElements(true);
+            testAPI();        
+        }
+        else
+         { 
+             console.log("Not authenticated");
+             setElements(false);
+         }
+    }
+    
+    function checkLoginState() {
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+}
+    
+    //SET CONTENT VISIBILITY
+    
+    function setElements(isLogged){
+        if(isLogged){
+            document.getElementById('profile').style.display='block';
+            document.getElementById('logout').style.display='block';
+            document.getElementById('fb-btn').style.display='none';
+            document.getElementById('welcome-msg').innerText="Welcome To CSI Posts";
+            document.getElementById('feed').style.display='block';
+        }
+        else{
+            document.getElementById('profile').style.display='none';
+            document.getElementById('logout').style.display='none';
+            document.getElementById('fb-btn').style.display='block';
+            document.getElementById('welcome-msg').innerText="Log in to continue";
+            document.getElementById('feed').style.display='none';
+        }
+    }
+    
+    //LOG OUT BUTTON
+    function logout(){
+        FB.logout(function(response){
+            setElements(false);
+        })
+    }
+    
+    
+    //DISPLAY LATEST 25 POSTS
+    function testAPI(){
+        
+        FB.api("/126976547314225/feed", function(feed){
+            if(feed && !feed.error){
+                
+                console.log(feed);
+                var output ='<h3>Latest 25 POSTS</h3>';
+                for(let i in feed.data){
+                    if(feed.data[i].message){
+                        var objid=feed.data[i].id;
+                        console.log(objid);
+                        
+                       
+                        FB.api("/"+objid+"?fields=permalink_url",function(response){
+                            if(response && !response.error)
+                                {
+                                    
+                                    output+=`<p>
+                                      <iframe src="https://www.facebook.com/plugins/post.php?href=${response.permalink_url}&width="500"&show_text=true&appId=119210578708411&height="350" width="1000" height="350" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe></p>
+                                `
+                                    
+                            document.getElementById('feed').innerHTML=output;
+                            
+                        })
+                        
+                       
+                    }
+                }
+                console.log(document.getElementById('feed').innerHTML);
+
+                
+                    }
+        })
+    }
+    
+ 
+    
+</script>
+</body>
+</html>
